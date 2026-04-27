@@ -1,16 +1,26 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Layout from "@/components/Layout";
+import InfiniteFeed from "@/components/InfiniteFeed";
+import { siteConfig } from "@/config/site";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <Layout>
+      <header className="feed-column pt-2 text-center md:pt-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
+          {siteConfig.tagline}
+        </p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight md:text-5xl">
+          {siteConfig.name}
+        </h1>
+        <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground md:text-base">
+          Scroll the feed — videos, photos, and stories from the stage.
+        </p>
+      </header>
+      <div className="mt-6">
+        <InfiniteFeed />
+      </div>
+    </Layout>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
