@@ -8,10 +8,10 @@ const About = () => {
           About
         </p>
         <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight md:text-5xl">
-          Latin Swing Dallas
+          Latin Swing
         </h1>
         <p className="mt-6 text-base leading-relaxed text-foreground/90 md:text-[17px]">
-          Latin Swing Dallas is a high-energy live band based in the Dallas–Fort Worth
+          Latin Swing is a high-energy live band based in the Dallas–Fort Worth
           metroplex specializing in Merengue, Salsa, Bachata, and Latin classics. Built
           for celebrations of every size — from intimate weddings to corporate galas
           and main-stage festivals — we bring polished musicianship and genuine

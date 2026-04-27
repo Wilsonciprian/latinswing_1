@@ -14,7 +14,7 @@ const News = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    data.append("_subject", "New mailing-list signup — Latin Swing Dallas");
+    data.append("_subject", "New mailing-list signup — Latin Swing");
     data.append("_source", "news-page");
 
     setSubmitting(true);

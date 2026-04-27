@@ -2,7 +2,7 @@
  * Site-wide configuration. Update these constants to customize.
  */
 export const siteConfig = {
-  name: "Latin Swing Dallas",
+  name: "Latin Swing",
   tagline: "Live Latin · Merengue · Salsa · Bachata",
   email: "latinswingdallas@gmail.com",
   /**
