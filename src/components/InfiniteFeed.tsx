@@ -1,41 +1,60 @@
-import { useEffect, useRef, useState } from "react";
-import { posts } from "@/data/posts";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import FeedPost from "./FeedPost";
+import type { FeedPostData } from "@/data/posts";
 
-const PAGE = posts.length;
-
-const InfiniteFeed = () => {
-  const [pages, setPages] = useState(1);
-  const sentinel = useRef<HTMLDivElement | null>(null);
+const Feed = () => {
+  const [posts, setPosts] = useState<FeedPostData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const el = sentinel.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setPages((p) => Math.min(p + 1, 20)); // cap to avoid runaway DOM
-        }
-      },
-      { rootMargin: "600px 0px 600px 0px" }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    supabase
+      .from("posts")
+      .select("id, type, src, alt, title, description")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        setPosts(
+          (data ?? []).map((p: any) => ({
+            id: p.id,
+            type: p.type,
+            src: p.src,
+            alt: p.alt ?? undefined,
+            title: p.title,
+            description: p.description,
+          }))
+        );
+        setLoading(false);
+      });
   }, []);
 
-  const items = Array.from({ length: pages * PAGE }, (_, i) => {
-    const post = posts[i % PAGE];
-    return { ...post, key: `${post.id}-${i}` };
-  });
+  if (loading) {
+    return (
+      <section className="feed-column py-10" aria-busy="true">
+        <div className="aspect-video w-full animate-pulse rounded-2xl bg-muted" />
+        <div className="mt-5 h-7 w-3/4 animate-pulse rounded bg-muted" />
+        <div className="mt-3 h-4 w-full animate-pulse rounded bg-muted" />
+      </section>
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <section className="feed-column py-16 text-center text-muted-foreground">
+        No posts yet — check back soon.
+      </section>
+    );
+  }
 
   return (
     <section aria-label="Feed">
-      {items.map((p, i) => (
-        <FeedPost key={p.key} post={p} index={i} />
+      {posts.map((p, i) => (
+        <FeedPost key={p.id} post={p} index={i} />
       ))}
-      <div ref={sentinel} aria-hidden className="h-20" />
+      <div className="feed-column py-12 text-center text-sm text-muted-foreground">
+        You've reached the end ✨
+      </div>
     </section>
   );
 };
 
-export default InfiniteFeed;
+export default Feed;
